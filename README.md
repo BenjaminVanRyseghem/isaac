@@ -1,6 +1,6 @@
 # hipchat-github-bot
 
-FIXME: description
+GitHub webhook to provide sums-up and cool messages
 
 ## Installation
 
@@ -20,17 +20,7 @@ FIXME: listing of options this app accepts.
 
 ...
 
-### Bugs
 
-...
+Copyright © 2014 Benjamin Van Ryseghem
 
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the General Public License (GPL) v3.0. See LICENSE for more information about the licensing of this project.
