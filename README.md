@@ -20,6 +20,7 @@ FIXME: listing of options this app accepts.
 
 ...
 
+## Licensing
 
 Copyright © 2014 Benjamin Van Ryseghem
 
