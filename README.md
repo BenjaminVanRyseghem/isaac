@@ -1,6 +1,6 @@
-# hipchat-github-bot
+# Isaac
 
-GitHub webhook to provide sums-up and cool messages
+HipChat dedicated robot
 
 ## Installation
 
@@ -10,7 +10,7 @@ Download from http://example.com/FIXME.
 
 FIXME: explanation
 
-    $ java -jar hipchat-github-bot-0.1.0-standalone.jar [args]
+    $ java -jar isaac-0.1.0-standalone.jar [args]
 
 ## Options
 
