@@ -1,6 +1,6 @@
-(ns hipchat-github-bot.core-test
+(ns isaac.handler-test
   (:require [clojure.test :refer :all]
-            [hipchat-github-bot.core :refer :all]))
+            [isaac.handler :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."
