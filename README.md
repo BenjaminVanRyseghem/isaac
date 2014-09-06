@@ -1,6 +1,8 @@
 # Isaac
 
-[HipChat][1] dedicated robot
+[HipChat][1] dedicated robot to track GitHub events (branch created/deleted and pull requests created/updated/closed).
+
+![screenshot](https://github.com/BenjaminVanRyseghem/isaac/blob/master/resources/Screenshot.png)
 
 [1]: https://www.hipchat.com
 ## Prerequisites
@@ -11,6 +13,12 @@ You will need [Leiningen][2] 1.7.0 or above installed.
 
 ## Installation
 
+Download the jar executable [here][3] and run it with the command
+
+    $ java -jar isaac-0.1.0-standalone.jar
+    
+Note that a `info.json` file is required (see section *info.json structure*).
+
 Once your server is deployed and running,
 go in your online HipChat **Group admin** page.
 
@@ -18,6 +26,8 @@ Go to *Integrations*, then click *Build and install your own integration*.
 You should then fill up the *Integration URL* field with the URL of your server.
 
 **The Integration URL must be the same that the "callback-url" from your `info.json` file**
+
+[3]: https://github.com/BenjaminVanRyseghem/isaac/raw/master/target/isaac-0.1.0-standalone.jar
 
 ## Running
 
@@ -39,7 +49,7 @@ You can then run it using:
 
 Note that an `info.json` file is needed along the `jar` file.
 
-## info.json structure
+## `info.json` structure
 
 The `info.json` file is structured like this: 
 
