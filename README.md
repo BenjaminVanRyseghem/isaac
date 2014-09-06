@@ -4,7 +4,7 @@ HipChat dedicated robot
 
 ## Installation
 
-Download from http://example.com/FIXME
+Download from http://example.com/FIXME!
 
 ## Usage
 
