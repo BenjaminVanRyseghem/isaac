@@ -1,17 +1,9 @@
 (ns isaac.github
-  (:require [clojure.data.json :as json]
-            [clojure.java.io :as io]
-            [isaac.hipchat :as hipchat])
+  (:require [isaac.hipchat :as hipchat])
   (:gen-class))
 
 
 (def ^{:private true} image-regex #"[\s|\w]*!\[.*\]\((.*)\)[\s|\w]*")
-
-(def ^{:private true} info
-  (json/read-str
-   (slurp (io/file (-> (java.io.File. "info.json") .getAbsolutePath)))
-   :key-fn keyword))
-
 ;;
 ;; PRIVATE
 ;;
@@ -104,14 +96,14 @@
 ;; PUBLIC
 ;;
 
-(defmulti handle-post (fn [x y] (get x "x-github-event")))
-(defmulti handle-delete (fn [x y] (:ref_type y)))
-(defmulti handle-create (fn [x y] (:ref_type y)))
-(defmulti handle-pull-request (fn [x y] (:action y)))
+(defmulti handle-post (fn [x y z] (get x "x-github-event")))
+(defmulti handle-delete (fn [x y z] (:ref_type y)))
+(defmulti handle-create (fn [x y z] (:ref_type y)))
+(defmulti handle-pull-request (fn [x y z] (:action y)))
 
 ;; DELETE
 
-(defmethod handle-delete "branch" [headers body]
+(defmethod handle-delete "branch" [headers body info]
   (hipchat/send-room-message (:url info)
                              (:room-id info)
                              (str (build-user-link body)
@@ -122,12 +114,12 @@
                              "red"
                              (:token info)))
 
-(defmethod handle-delete :default [headers body]
+(defmethod handle-delete :default [headers body info]
   "IGNORED")
 
 ;; CREATE
 
-(defmethod handle-create "branch" [headers body]
+(defmethod handle-create "branch" [headers body info]
   (hipchat/send-room-message (:url info)
                              (:room-id info)
                              (str (build-user-link body)
@@ -138,12 +130,12 @@
                              "green"
                              (:token info)))
 
-(defmethod handle-create :default [headers body]
+(defmethod handle-create :default [headers body info]
   "IGNORED")
 
 ;; PULL REQUEST
 
-(defmethod handle-pull-request "opened" [headers body]
+(defmethod handle-pull-request "opened" [headers body info]
   (hipchat/send-room-message (:url info)
                              (:room-id info)
                              (str (build-user-link body)
@@ -160,7 +152,7 @@
                              "green"
                              (:token info)))
 
-(defmethod handle-pull-request "synchronize" [headers body]
+(defmethod handle-pull-request "synchronize" [headers body info]
   (hipchat/send-room-message (:url info)
                              (:room-id info)
                              (str (build-user-link body)
@@ -175,29 +167,29 @@
                              "yellow"
                              (:token info)))
 
-(defmethod handle-pull-request "closed" [headers body]
+(defmethod handle-pull-request "closed" [headers body info]
   (hipchat/send-room-message (:url info)
                              (:room-id info)
                              (build-closed-pull-request-message body)
                              (closed-pull-request-color body)
                              (:token info)))
 
-(defmethod handle-pull-request :default [headers body]
+(defmethod handle-pull-request :default [headers body info]
   "IGNORED")
 
 ;;
 ;; CORE
 ;;
 
-(defmethod handle-post "delete" [headers body]
-  (handle-delete headers body))
+(defmethod handle-post "delete" [headers body info]
+  (handle-delete headers body info))
 
-(defmethod handle-post "create" [headers body]
-  (handle-create headers body))
+(defmethod handle-post "create" [headers body info]
+  (handle-create headers body info))
 
-(defmethod handle-post "pull_request" [headers body]
-  (handle-pull-request headers body))
+(defmethod handle-post "pull_request" [headers body info]
+  (handle-pull-request headers body info))
 
 
-(defmethod handle-post :default [h b]
-  (println (get h "x-github-event") "NOT YET SUPPORTED"))
+(defmethod handle-post :default [headers body info]
+  (println (get headers "x-github-event") "NOT YET SUPPORTED"))
