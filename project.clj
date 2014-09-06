@@ -1,4 +1,4 @@
-(defproject hipchat-github-bot "0.1.0-SNAPSHOT"
+(defproject isaac "0.1.0"
   :description "HipChat dedicated robot"
   :url "https://github.com/BenjaminVanRyseghem/isaac"
   :license {:name "General Public License version 3"
