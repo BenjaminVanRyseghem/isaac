@@ -9,28 +9,27 @@
    [isaac.hipchat :as hipchat])
   (:gen-class))
 
+
 (def ^{:private true} info-path (io/file (-> (java.io.File. "info.json") .getAbsolutePath)))
-
-(def ^{:private true} info (atom (json/read-str
-                                  (slurp info-path)
-                                  :key-fn keyword)))
-
+(def ^{:private true} info (json/read-str
+                            (slurp info-path)
+                            :key-fn keyword))
+(declare full-info)
 ;;
 ;; CORE
 ;;
 
+;; Should use multi method instead of the if?
+
 (defroutes app-routes
-  (GET "/" {} (hipchat/capabilities-descriptor @info))
+  (GET "/" {} (hipchat/capabilities-descriptor info))
   (POST "/" {headers :headers body :body}
         (do
           (if (= (get headers "user-agent") "HipChat.com")
-            (let [new-info (hipchat/retrieve-token headers (json/read-str (slurp body) :key-fn keyword))
-                  token (:token new-info)
-                  room-id (:room-id new-info)]
-              (swap! info assoc :token token :room-id room-id)
-              (spit info-path (json/write-str @info))
+            (let [room-id (hipchat/retrieve-token headers (json/read-str (slurp body) :key-fn keyword))]
+              (def ^{:private true} full-info (assoc info :room-id room-id))
               "200")
-            (github/handle-post headers (json/read-str (slurp body) :key-fn keyword) @info))
+            (github/handle-post headers (json/read-str (slurp body) :key-fn keyword) full-info))
           "200"))
   (route/not-found ""))
 

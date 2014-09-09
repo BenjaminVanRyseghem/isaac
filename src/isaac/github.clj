@@ -111,8 +111,7 @@
                                   (build-branch-name body)
                                   " of "
                                   (build-repository-link body))
-                             "red"
-                             (:token info)))
+                             "red"))
 
 (defmethod handle-delete :default [headers body info]
   "IGNORED")
@@ -127,8 +126,7 @@
                                   (build-branch-link body)
                                   " of "
                                   (build-repository-link body))
-                             "green"
-                             (:token info)))
+                             "green"))
 
 (defmethod handle-create :default [headers body info]
   "IGNORED")
@@ -149,8 +147,7 @@
                                   (build-pull-request-desc body)
                                   (if (contains-image? body)
                                     (build-pull-request-picture body)))
-                             "green"
-                             (:token info)))
+                             "green"))
 
 (defmethod handle-pull-request "synchronize" [headers body info]
   (hipchat/send-room-message (:url info)
@@ -164,15 +161,13 @@
                                   (build-pull-request-title-link body)
                                   " moving <code>HEAD</code> to "
                                   (build-head-link body))
-                             "yellow"
-                             (:token info)))
+                             "yellow"))
 
 (defmethod handle-pull-request "closed" [headers body info]
   (hipchat/send-room-message (:url info)
                              (:room-id info)
                              (build-closed-pull-request-message body)
-                             (closed-pull-request-color body)
-                             (:token info)))
+                             (closed-pull-request-color body)))
 
 (defmethod handle-pull-request :default [headers body info]
   "IGNORED")
